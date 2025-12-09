@@ -31,12 +31,12 @@ Copy-Item .env.example .env
 # Build and start
 docker compose build; docker compose up -d
 # Check health
-Invoke-WebRequest http://localhost:8080/health
-# Swagger 
+Invoke-WebRequest http://localhost:5000/health
+# Swagger doc 
 http://localhost:5000/swagger/index.html
 
 ```
-Frontend at `http://localhost:5173`, API at `http://localhost:5000`.
+Frontend at `http://localhost:5173`, Backend at `http://localhost:5000`.
 
 ## API
 - `GET /api/tasks?limit=5`
@@ -67,3 +67,10 @@ npm test
 
 ## CI
 A GitHub Actions workflow runs both backend and frontend tests.
+
+## Author
+Harith Vithanage (@harith2001) 
+
+Portfolio : https://harith2001.github.io/harith_portfolio/ 
+
+Linkedin : https://www.linkedin.com/in/harith-vithanage-67ba72210/
