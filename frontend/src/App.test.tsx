@@ -1,9 +1,12 @@
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import App from './App'
 
 // Mock fetch
 const mockFetch = (data: any) => {
-  global.fetch = jest.fn().mockResolvedValue({ json: async () => data }) as any
+  global.fetch = jest.fn().mockResolvedValue({ 
+    ok: true,
+    json: async () => data 
+  }) as any
 }
 
 test('renders and shows no tasks initially with mocked fetch', async () => {
@@ -13,16 +16,24 @@ test('renders and shows no tasks initially with mocked fetch', async () => {
 })
 
 test('adds a task triggers POST', async () => {
-  mockFetch([])
+  // Mock fetch for all requests
+  const mockFetchImpl = jest.fn()
+    .mockResolvedValueOnce({ ok: true, json: async () => [] }) // Initial GET
+    .mockResolvedValueOnce({ ok: true, json: async () => ({ id: 1, title: 'My Task', description: '', isCompleted: false, createdAt: new Date().toISOString() }) }) // POST
+    .mockResolvedValueOnce({ ok: true, json: async () => [{ id: 1, title: 'My Task', description: '', isCompleted: false, createdAt: new Date().toISOString() }] }) // GET reload
+  
+  global.fetch = mockFetchImpl as any
+  
   render(<App />)
+  
   const input = screen.getByPlaceholderText('Title')
   fireEvent.change(input, { target: { value: 'My Task' } })
+  
   const btn = screen.getByText('Add')
-  // Mock POST
-  global.fetch = jest.fn()
-    .mockResolvedValueOnce({ json: async () => [] }) // initial GET
-    .mockResolvedValueOnce({}) // POST
-    .mockResolvedValueOnce({ json: async () => [{ id:1, title:'My Task', description:'', isCompleted:false, createdAt:'' }] }) // reload GET
   fireEvent.click(btn)
-  expect(await screen.findByText('My Task')).toBeInTheDocument()
+  
+  await waitFor(() => {
+    expect(screen.getByText('My Task')).toBeInTheDocument()
+  })
 })
+
