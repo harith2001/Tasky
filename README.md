@@ -32,8 +32,11 @@ Copy-Item .env.example .env
 docker compose build; docker compose up -d
 # Check health
 Invoke-WebRequest http://localhost:8080/health
+# Swagger 
+http://localhost:5000/swagger/index.html
+
 ```
-Frontend at `http://localhost:5173`, API at `http://localhost:8080`.
+Frontend at `http://localhost:5173`, API at `http://localhost:5000`.
 
 ## API
 - `GET /api/tasks?limit=5`
@@ -44,6 +47,10 @@ Frontend at `http://localhost:5173`, API at `http://localhost:8080`.
 ```powershell
 # Build API
 dotnet build backend/src/Tasky.Api/Tasky.Api.csproj
+
+# Run API
+dotnet run backend/src/Tasky.Api/Tasky.Api.csproj
+
 # Run tests
 dotnet test backend/tests/Tasky.Tests/Tasky.Tests.csproj
 ```

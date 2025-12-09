@@ -2,6 +2,9 @@ using Microsoft.EntityFrameworkCore;
 using Tasky.Api.Data;
 using Tasky.Api.Entities;
 using Tasky.Api.Models;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 public class TaskApiTests

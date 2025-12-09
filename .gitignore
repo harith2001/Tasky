@@ -15,6 +15,9 @@ frontend/.vite/
 backend/src/Tasky.Api/appsettings.Development.json
 backend/src/Tasky.Api/appsettings.json
 
+backend/tests/Tasky.Api/appsettings.Development.json
+backend/tests/Tasky.Api/appsettings.json
+
 # Docker
 **/.azure/
 **/.DS_Store
